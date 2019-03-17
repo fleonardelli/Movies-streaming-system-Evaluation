@@ -36,7 +36,7 @@ PUT         |  localhost/api/movie/1  |  Update movie ID 1
 
 DELETE      |  localhost/api/movie/1  |  Delete (soft delete) movie ID 1.
 
-
+As an *event driven architecture*, we can see that when we create a new movie, an event starts and it has two listeners, one for sending an email to the users and another for adding the movie to a plan.
 
 
 
