@@ -1,0 +1,24 @@
+version: '2'
+
+services: 
+  webserver:
+    build: ./
+    image: laravel_web
+    ports:
+        - 80:80
+    volumes:
+        - ./:/var/www/html
+    links:
+        - mysql
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+        # with mysql
+        MYSQL_DATABASE: laratest
+        MYSQL_USER: homestead
+        MYSQL_PASSWORD: homestead
+        MYSQL_ROOT_PASSWORD: homestead
+        MYSQL_ALLOW_EMPTY_PASSWORD: NULL
+        MYSQL_RANDOM_ROOT_PASSWORD: NULL
