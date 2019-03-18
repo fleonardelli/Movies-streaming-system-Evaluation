@@ -13,14 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('movie', 'MovieController@index');
-Route::get('movie/{movie}', 'MovieController@show');
-Route::post('movie', 'MovieController@store');
-Route::put('movie/{movie}', 'MovieController@update');
-Route::delete('movie/{movie}', 'MovieController@delete');
+Route::get('movies', 'MovieController@index');
+Route::get('movies/{movie}', 'MovieController@show');
+Route::post('movies', 'MovieController@store');
+Route::put('movies/{movie}', 'MovieController@update');
+Route::delete('movies/{movie}', 'MovieController@delete');
 
-Route::get('actor', 'ActorController@index');
-Route::get('actor/{actor}', 'ActorController@show');
-Route::post('actor', 'ActorController@store');
-Route::put('actor/{actor}', 'ActorController@update');
-Route::delete('actor/{actor}', 'ActorController@delete');
+Route::get('actors', 'ActorController@index');
+Route::get('actors/{actor}', 'ActorController@show');
+Route::post('actors', 'ActorController@store');
+Route::put('actors/{actor}', 'ActorController@update');
+Route::delete('actors/{actor}', 'ActorController@delete');
