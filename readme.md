@@ -26,18 +26,39 @@ All the request to the RestFul API are going to be filtered by the *Middleware*.
 ### Movies API
 As an example, in this project I will develop the movies microservice.
 
-GET         |  localhost/api/movie    |   Get all movies
+GET         |  localhost/api/movies    |   Get all movies
 
-GET         |  localhost/api/movie/1  |   Get movie ID 1
+GET         |  localhost/api/movies/1  |   Get movie ID 1
 
-POST        |  localhost/api/movie    |  Create movie
+POST        |  localhost/api/movies    |  Create movie
 
-PUT         |  localhost/api/movie/1  |  Update movie ID 1
+PUT         |  localhost/api/movies/1  |  Update movie ID 1
 
-DELETE      |  localhost/api/movie/1  |  Delete (soft delete) movie ID 1.
+DELETE      |  localhost/api/movies/1  |  Delete (soft delete) movie ID 1.
+
+GET         |  localhost/api/actors    |   Get all actors
+
+GET         |  localhost/api/actors/1  |   Get actor ID 1
+
+POST        |  localhost/api/actors    |  Create actor
+
+PUT         |  localhost/api/actors/1  |  Update actor ID 1
+
+DELETE      |  localhost/api/actors/1  |  Delete (soft delete) actor ID 1.
 
 As an *event driven architecture*, we can see that when we create a new movie, an event starts and it has two listeners, one for sending an email to the users and another for adding the movie to a plan.
 
 
 ## Starting the project
 
+1- Clone the repo
+2- Run: service mysel stop AND service apache2 stop
+3- Enter to the project folder
+4- Run: composer install AND npm install
+5- Run:  cp .env.example .env
+6- Run: docker-compose up -d
+7- Run: php artisan key:generate
+8- The project should start in http://localhost
+    8.1- If you have permissions problems run: sudo chown www-data:www-data storage/ -R
+9- Enter to the webserver container: docker-composer exec webserver bash
+6- Run: php artisan migrate AND php artisan db:seed
