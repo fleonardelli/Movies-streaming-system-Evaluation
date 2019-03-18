@@ -1,71 +1,43 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## Example of small distributed system about movies streaming.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+The technology choosen for the BE is Laravel, because it supports *event driven architecture* and for its ease and speed for developing an API. FE will be separated from BE, and possibly it will be developed in Angular because it is a strong Framework that uses MVVC. 
 
-## About Laravel
+## The whole system will include 3 microservices:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Auth microservice:** CRUD of users. It will also work as a Middleware for authorisation.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Subscription microservice:** CRUD of subscriptions for users. It will be the intermediate system, wich will be in charge of return wich movies could a user see depending of his plan and payment. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Movies microservice:** CRUD of movies. It will provide movies to the subscription microservice, but it could also provide an API for another microservice wich responsability is create, upload and delete movies. 
 
-## Learning Laravel
+## DER
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+https://drive.google.com/file/d/1OMvxLsHgQj3mzX2TVHmtkbAQd8Wv8Te8/view?usp=sharing
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+We can see the scalability of the system, we can think about adding the *payment (billing) microservice* and/or a new feature could be *Series streaming* for wich we only need to add its own microservice, and it will use the subscriptions microservice. 
+This system will only read the movies microservice, but, probably, another system will use the creation, update and delete actions.
 
-## Laravel Sponsors
+On the other hand, **I limited the movies microservice** for find a movie saved in a path, but the best way is to have different servers provinding movies with a *load balancer* ahead. We should also have another microservice wich provides nationalities.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## RestFul API
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
+All the request to the RestFul API are going to be filtered by the *Middleware*. It will check if the user is logged in, and if he is allowed to make the action. I will use HTTP status codes for responses.
 
-## Contributing
+### Movies API
+As an example, in this project I will develop the movies microservice.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+GET         |  localhost/api/movie    |   Get all movies
 
-## Security Vulnerabilities
+GET         |  localhost/api/movie/1  |   Get movie ID 1
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+POST        |  localhost/api/movie    |  Create movie
 
-## License
+PUT         |  localhost/api/movie/1  |  Update movie ID 1
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+DELETE      |  localhost/api/movie/1  |  Delete (soft delete) movie ID 1.
+
+As an *event driven architecture*, we can see that when we create a new movie, an event starts and it has two listeners, one for sending an email to the users and another for adding the movie to a plan.
+
+
+## Starting the project
+
