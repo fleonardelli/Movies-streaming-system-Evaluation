@@ -52,13 +52,23 @@ As an *event driven architecture*, we can see that when we create a new movie, a
 ## Starting the project
 
 1- Clone the repo
+
 2- Run: service mysel stop AND service apache2 stop
+
 3- Enter to the project folder
+
 4- Run: composer install AND npm install
+
 5- Run:  cp .env.example .env
+
 6- Run: docker-compose up -d
+
 7- Run: php artisan key:generate
+
 8- The project should start in http://localhost
-    8.1- If you have permissions problems run: sudo chown www-data:www-data storage/ -R
+
+8.1- If you have permissions problems run: sudo chown www-data:www-data storage/ -R
+
 9- Enter to the webserver container: docker-composer exec webserver bash
-6- Run: php artisan migrate AND php artisan db:seed
+
+10- Run: php artisan migrate AND php artisan db:seed
